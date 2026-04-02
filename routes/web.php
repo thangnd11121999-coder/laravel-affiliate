@@ -31,6 +31,5 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-
-Route::resource('/creators', CreatorController::class);
 //lệnh tự tạo toàn bộ route CRUD
+Route::resource('/creators', CreatorController::class);

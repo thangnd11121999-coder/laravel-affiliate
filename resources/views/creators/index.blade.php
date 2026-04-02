@@ -1,7 +1,6 @@
 <h1>Danh sách Creator</h1>
 <a href="  {{ route('creators.create') }}  ">+ thêm mới</a>
 
-
 <table border="1">
   <tr>
     <th>ID</th>
@@ -25,6 +24,19 @@
     <td>{{ $creator -> follower_count }}</td>
     <td>{{ $creator -> status }}</td>
     <td>{{ $creator -> notes }}</td>
+    <td>
+        <a href="{{ route('creators.edit', $creator->id) }}">Sửa</a>
+    </td>
+    <td>
+        <form action="{{ route('creators.destroy', $creator -> id) }}" method="POST">
+          @csrf
+          @method('DELETE')
+          <button type="submit">Xóa</button>
+        </form>
+    </td>
+    <td>
+      <a href="{{ route('creators.show', $creator->id) }}">Xem</a>
+    </td>
   </tr>
        @endforeach
 </table>
