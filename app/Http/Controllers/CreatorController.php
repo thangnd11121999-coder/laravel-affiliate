@@ -18,26 +18,48 @@ class CreatorController extends Controller
     }
 
     public function store(Request $request)
-     {
-         Creator::create([
-            'full_name' => $request -> full_name,
-            'display_name' => $request -> display_name,
-            'email' => $request -> email,
-            'phone' => $request -> phone,
-            'platform' => $request -> platform,
-            'follower_count' => $request -> follower_count,
-            'status' => $request -> status,
-            'notes' => $request -> notes,
-         ]);
-        return redirect() -> route('creators.index');
-    }
+{
+    $request->validate([
+        'full_name' => 'required|string|max:255',
+        'display_name' => 'nullable|string|max:255',
+        'email' => 'nullable|email|unique:creators,email',
+        'phone' => 'required|string|max:20',
+        'platform' => 'nullable|string|max:50',
+        'follower_count' => 'required|integer|min:0',
+        'status' => 'required|in:active,inactive,pending',
+        'notes' => 'nullable|string|max:500',
+    ]);
 
+    Creator::create([
+        'full_name' => $request->full_name,
+        'display_name' => $request->display_name,
+        'email' => $request->email,
+        'phone' => $request->phone,
+        'platform' => $request->platform,
+        'follower_count' => $request->follower_count,
+        'status' => $request->status,
+        'notes' => $request->notes,
+    ]);
+
+    return redirect()->route('creators.index');
+}
     public function edit(Request $request, $id) {
        $creator = Creator::findOrFail($id);
        return view('creators.edit',compact('creator'));
     }
 
     public function update(Request $request, $id) {
+        $request ->validate([
+              'full_name' => 'required|string|max:255',
+              'display_name' => 'nullable|string|max:255',
+              'email' => 'nullable|email|unique:creators,email,' . $id,  
+              'phone' => 'required|string|max:20',
+              'platform' => 'nullable',
+              'follower_count' => 'required|integer|min:0',
+              'status' => 'required|in:Active,Inactive,Pending',
+              'notes' => 'nullable|string|max:500',
+        ]);
+
         $creator = Creator::findOrFail($id);
         $creator -> update([
             'full_name' => $request -> full_name,
@@ -54,7 +76,7 @@ class CreatorController extends Controller
 
     public function destroy($id){
             $creator = Creator::findOrFail($id);
-            $creator -> destroy($id);
+            $creator->delete();
             return redirect() -> route('creators.index');
     }
 
