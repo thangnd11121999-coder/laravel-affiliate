@@ -1,5 +1,13 @@
 <h1>Danh sách Creator</h1>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
 <a href="  {{ route('creators.create') }}  ">+ thêm mới</a>
+<br>
+<form action="{{ route('creators.index') }}" method="GET">
+    <input type="text" name="keyword" placeholder="Tìm creator..." value="{{ request('keyword') }}">
+    <button type="submit">Tìm</button>
+</form>
 
 <table border="1">
   <tr>
@@ -40,3 +48,4 @@
   </tr>
        @endforeach
 </table>
+{{ $creators->links('pagination::bootstrap-5') }}

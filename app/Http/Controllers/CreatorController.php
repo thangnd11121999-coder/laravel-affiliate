@@ -8,10 +8,18 @@ use Illuminate\Http\Request;
 use HasFactory;
 class CreatorController extends Controller
 {
-   public function index() {
-        $creators = Creator::latest()->get(); 
-        return view('creators.index',compact('creators'));
-    }
+   public function index(Request $request) {
+        $keyword = $request->keyword;
+        $query = Creator::query();
+        // dd($request->keyword);
+        if ($keyword) {
+        $query->where('full_name', 'like', '%' . $keyword . '%')
+              ->orWhere('display_name', 'like', '%' . $keyword . '%')
+              ->orWhere('email', 'like', '%' . $keyword . '%');
+        }
+        $creators = $query->latest()->paginate(5)->withQueryString(); 
+        return view('creators.index',compact('creators','keyword'));
+        }
 
     public function create() {
           return view('creators.create');
