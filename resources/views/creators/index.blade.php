@@ -20,6 +20,7 @@
     <th>Flower Count</th>
     <th>Status</th>
     <th>Notes</th>
+    <th>Campaign Count</th>
   </tr>
       @foreach($creators as $creator )
   <tr>
@@ -32,6 +33,7 @@
     <td>{{ $creator -> follower_count }}</td>
     <td>{{ $creator -> status }}</td>
     <td>{{ $creator -> notes }}</td>
+    <td>{{  $creator->campaigns->count() }}</td>
     <td>
         <a href="{{ route('creators.edit', $creator->id) }}">Sửa</a>
     </td>

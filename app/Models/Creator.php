@@ -18,5 +18,9 @@ class Creator extends Model
         'status',
         'notes',
     ];
+
+    public function campaigns() {
+        return $this->hasMany(Campaign::class);
+    }
     
 }

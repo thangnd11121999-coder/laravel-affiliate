@@ -10,8 +10,7 @@ class CreatorController extends Controller
 {
    public function index(Request $request) {
         $keyword = $request->keyword;
-        $query = Creator::query();
-        // dd($request->keyword);
+        $query = Creator::with('campaigns'); //SELECT * FROM campaigns WHERE creator_id IN (1, 2, 3);
         if ($keyword) {
         $query->where('full_name', 'like', '%' . $keyword . '%')
               ->orWhere('display_name', 'like', '%' . $keyword . '%')
